@@ -2,8 +2,9 @@ package com.banking.account_service.controller;
 
 import com.banking.account_service.dto.*;
 import com.banking.account_service.entity.BankAccount;
-import com.banking.account_service.serviceImpl.BankAccountServiceImpl;
 import com.banking.account_service.service.BankAccountService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,11 @@ public class BankAccountController {
             @RequestBody CreateBankAccountRequestDTO requestDTO) {
 
         return bankAccountService.createAccount(requestDTO);
+    }
+
+    @GetMapping("/{accountNumber}")
+    public BankAccount getAccount(@PathVariable String accountNumber) {
+        return bankAccountService.getAccountByAccountNumber(accountNumber);
     }
 
     @PostMapping("/deposit")

@@ -5,6 +5,7 @@ import com.banking.account_service.entity.BankAccount;
 
 public interface BankAccountService {
     BankAccount createAccount(CreateBankAccountRequestDTO request);
+    BankAccount getAccountByAccountNumber(String accountNumber);
     DepositResponseDTO depositMoney(DepositRequestDTO request);
     WithdrawResponseDTO withdrawMoney(WithdrawRequestDTO request);
     TransferResponseDTO transferMoney(TransferRequestDTO request);

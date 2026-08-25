@@ -23,6 +23,11 @@ spring:
             predicates:
               - Path=/api/account/**
 
+          - id: transaction-service
+            uri: lb://TRANSACTION-SERVICE
+            predicates:
+              - Path=/api/transactions/**
+
 eureka:
   client:
     service-url:

@@ -1,7 +1,6 @@
-package com.banking.account_service.repository;
+package com.banking.transaction_service.repository;
 
-import com.banking.account_service.entity.BankAccount;
-import com.banking.account_service.entity.Transaction;
+import com.banking.transaction_service.entity.Transaction;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,9 +13,10 @@ import java.util.List;
 public interface TransactionRepository
         extends JpaRepository<Transaction, Long> {
 
-    List<Transaction> findByBankAccount(BankAccount account);
-    Page<Transaction> findByBankAccountAndTransactionDateBetween(
-            BankAccount bankAccount,
+    List<Transaction> findByAccountNumber(String accountNumber);
+
+    Page<Transaction> findByAccountNumberAndTransactionDateBetween(
+            String accountNumber,
             LocalDateTime fromDate,
             LocalDateTime toDate,
             Pageable pageable);

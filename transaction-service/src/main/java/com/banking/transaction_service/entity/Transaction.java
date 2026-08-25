@@ -1,6 +1,5 @@
-package com.banking.account_service.entity;
+package com.banking.transaction_service.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,8 +29,6 @@ public class Transaction {
 
     private LocalDateTime transactionDate;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "account_id")
-    private BankAccount bankAccount;
+    @Column(name = "account_number", nullable = false)
+    private String accountNumber;
 }

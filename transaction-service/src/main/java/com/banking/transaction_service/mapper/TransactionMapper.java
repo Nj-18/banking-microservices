@@ -1,11 +1,11 @@
-package com.banking.account_service.mappers;
+package com.banking.transaction_service.mapper;
 
-import com.banking.account_service.dto.TransactionResponseDTO;
-import com.banking.account_service.entity.Transaction;
+import com.banking.transaction_service.dto.TransactionResponseDTO;
+import com.banking.transaction_service.entity.Transaction;
 
 public class TransactionMapper {
 
-    public static TransactionResponseDTO toDTO(Transaction transaction){
+    public static TransactionResponseDTO toDTO(Transaction transaction) {
 
         TransactionResponseDTO dto = new TransactionResponseDTO();
 

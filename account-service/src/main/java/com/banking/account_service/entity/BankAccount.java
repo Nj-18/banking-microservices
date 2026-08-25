@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,9 +31,5 @@ public class BankAccount {
     @JsonIgnore
     @Column(name = "customer_id", nullable = false)
     private Long customerId;
-
-    @OneToMany(mappedBy = "bankAccount",
-            cascade = CascadeType.ALL)
-    private List<Transaction> transactions;
 
 }

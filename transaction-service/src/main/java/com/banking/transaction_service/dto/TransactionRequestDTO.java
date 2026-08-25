@@ -1,12 +1,14 @@
-package com.banking.account_service.dto;
+package com.banking.transaction_service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 @Getter
 @Setter
-public class TransactionResponseDTO {
+public class TransactionRequestDTO {
+
+    private String accountNumber;
+
     private String transactionReference;
 
     private String transactionType;
@@ -15,7 +17,5 @@ public class TransactionResponseDTO {
 
     private Double balanceAfterTransaction;
 
-    private String status;
-
-    private LocalDateTime transactionDate;
+    private String remarks;
 }

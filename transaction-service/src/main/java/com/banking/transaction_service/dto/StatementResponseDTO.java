@@ -1,6 +1,5 @@
-package com.banking.account_service.dto;
+package com.banking.transaction_service.dto;
 
-import com.banking.account_service.dto.TransactionResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +14,4 @@ public class StatementResponseDTO {
     private Double currentBalance;
 
     private List<TransactionResponseDTO> transactions;
-
-//    public void setTransactions(List<Transaction> transactions) {
-//    }
 }
