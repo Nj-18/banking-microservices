@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  config:
+    import: "optional:configserver:http://localhost:8888"
+
+  cloud:
+    gateway:
+      mvc:
+        routes:
+
+          - id: customer-service
+            uri: lb://CUSTOMER-SERVICE
+            predicates:
+              - Path=/api/customer/**
+
+          - id: account-service
+            uri: lb://ACCOUNT-SERVICE
+            predicates:
+              - Path=/api/account/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
