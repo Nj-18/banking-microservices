@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > BankAccountController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.banking.demo.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: BankAccountController (com.banking.demo.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BankAccountController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.banking.demo.controllers;
+&nbsp;
+&nbsp;import com.banking.demo.dtos.*;
+&nbsp;import com.banking.demo.entities.BankAccount;
+&nbsp;import com.banking.demo.entities.Customer;
+&nbsp;import com.banking.demo.serviceImpl.BankAccountServiceImpl;
+&nbsp;import com.banking.demo.services.BankAccountService;
+&nbsp;import org.springframework.web.bind.annotation.PostMapping;
+&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+&nbsp;import org.springframework.web.bind.annotation.RestController;
+&nbsp;
+&nbsp;@RestController
+&nbsp;@RequestMapping(&quot;/api/accounts&quot;)
+&nbsp;public class BankAccountController {
+&nbsp;
+&nbsp;    private final BankAccountService bankAccountService;
+&nbsp;
+<b class="nc">&nbsp;    public BankAccountController(BankAccountServiceImpl bankAccountService) {</b>
+<b class="nc">&nbsp;        this.bankAccountService = bankAccountService;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/&quot;)
+&nbsp;    public BankAccount createAccount(@RequestBody CreateBankAccountRequestDTO requestDTO) {
+&nbsp;
+<b class="nc">&nbsp;        return bankAccountService.createAccount(requestDTO);</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/deposit&quot;)
+&nbsp;    public DepositResponseDTO depositMoney(@RequestBody DepositRequestDTO request)
+&nbsp;    {
+<b class="nc">&nbsp;        return bankAccountService.depositMoney(request);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/withdraw&quot;)
+&nbsp;    public WithdrawResponseDTO withdrawMoney(
+&nbsp;            @RequestBody WithdrawRequestDTO request) {
+&nbsp;
+<b class="nc">&nbsp;        return bankAccountService.withdrawMoney(request);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @PostMapping(&quot;/transfer&quot;)
+&nbsp;    public TransferResponseDTO transferMoney(
+&nbsp;            @RequestBody TransferRequestDTO request) {
+&nbsp;
+<b class="nc">&nbsp;        return bankAccountService.transferMoney(request);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-08-13 10:53</div>
+</div>
+</body>
+</html>
