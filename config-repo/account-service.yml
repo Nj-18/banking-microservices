@@ -1,9 +1,9 @@
 server:
-  port: 8084
+  port: 8083
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/transaction_db
+    url: jdbc:mysql://localhost:3306/account_db
     username: root
     password: Smartnj18@
 
@@ -14,6 +14,9 @@ spring:
 resilience4j:
   circuitbreaker:
     instances:
-      ACCOUNT-SERVICE:
+      CUSTOMER-SERVICE:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+      TRANSACTION-SERVICE:
         slidingWindowSize: 10
         failureRateThreshold: 50
