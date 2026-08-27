@@ -23,6 +23,18 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8888"
 
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+        group:
+          enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 2000
+            readTimeout: 3000
+
 jwt:
   secret: ThisIsMySuperSecretKeyForBankingApplication12345678901234567890
   expiration: 86400000
@@ -33,7 +45,45 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 
 management:
+  health:
+    circuitbreakers:
+      enabled: true
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,circuitbreakers
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+    instances:
+      ACCOUNT-SERVICE:
+        baseConfig: default
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 3s
+    instances:
+      ACCOUNT-SERVICE:
+        baseConfig: default
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 200ms
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+        retryExceptions:
+          - java.io.IOException
+          - feign.RetryableException
+    instances:
+      ACCOUNT-SERVICE:
+        baseConfig: default

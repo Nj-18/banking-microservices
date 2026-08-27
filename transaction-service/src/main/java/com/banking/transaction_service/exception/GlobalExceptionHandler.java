@@ -25,6 +25,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
+    @ExceptionHandler(DownstreamServiceException.class)
+    public ResponseEntity<ErrorResponseDTO> handleDownstreamService(
+            DownstreamServiceException ex,
+            HttpServletRequest request) {
+
+        ErrorResponseDTO response = buildErrorResponse(
+                HttpStatus.SERVICE_UNAVAILABLE,
+                ex.getMessage(),
+                request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(response);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGenericException(
             Exception ex,

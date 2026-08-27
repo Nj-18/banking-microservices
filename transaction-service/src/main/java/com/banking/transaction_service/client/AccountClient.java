@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "ACCOUNT-SERVICE")
+@FeignClient(name = "ACCOUNT-SERVICE", fallbackFactory = AccountClientFallbackFactory.class)
 public interface AccountClient {
 
     @GetMapping("/api/account/{accountNumber}")
