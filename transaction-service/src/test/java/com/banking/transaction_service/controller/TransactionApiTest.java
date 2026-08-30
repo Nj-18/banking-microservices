@@ -1,6 +1,7 @@
 package com.banking.transaction_service.controller;
 
 import com.banking.transaction_service.client.AccountClient;
+import com.banking.transaction_service.kafka.KafkaProducerService;
 import com.banking.transaction_service.dto.AccountDTO;
 import com.banking.transaction_service.dto.TransferRequestDTO;
 import com.banking.transaction_service.dto.TransferResponseDTO;
@@ -40,6 +41,9 @@ class TransactionApiTest {
 
     @MockitoBean
     private AccountClient accountClient;
+
+    @MockitoBean
+    private KafkaProducerService kafkaProducerService;
 
     @Test
     void recordHistoryStatementAndTransfer_endToEndThroughHttp() throws Exception {
