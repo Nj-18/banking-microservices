@@ -11,7 +11,7 @@ spring:
   cloud:
     gateway:
       server:
-        webmvc:
+        webflux:
           routes:
 
             - id: customer-service
@@ -58,11 +58,13 @@ spring:
                 - name: Retry
                   args:
                     retries: 3
-                    methods: GET
+                    methods: GET,POST
                     series: SERVER_ERROR
                     statuses: BAD_GATEWAY,SERVICE_UNAVAILABLE
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/

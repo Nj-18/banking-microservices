@@ -18,6 +18,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import com.banking.transaction_service.event.TransactionEvent;
+import com.banking.transaction_service.kafka.KafkaProducerService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,13 +32,17 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final AccountClient accountClient;
+    private final KafkaProducerService kafkaProducerService;
 
     public TransactionServiceImpl(
             TransactionRepository transactionRepository,
-            AccountClient accountClient) {
+            AccountClient accountClient,
+            KafkaProducerService kafkaProducerService
+            ) {
 
         this.transactionRepository = transactionRepository;
         this.accountClient = accountClient;
+        this.kafkaProducerService=kafkaProducerService;
     }
 
     @Override
@@ -64,12 +70,50 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setStatus("SUCCESS");
         transaction.setTransactionDate(LocalDateTime.now());
 
-        return transactionRepository.save(transaction);
+        Transaction saved = transactionRepository.save(transaction);
+
+        TransactionEvent event = new TransactionEvent();
+        event.setTransactionReference(saved.getTransactionReference());
+        event.setFromAccountNumber(saved.getAccountNumber());
+        event.setAmount(java.math.BigDecimal.valueOf(saved.getAmount()));
+        event.setTransactionType(saved.getTransactionType());
+        event.setStatus(saved.getStatus());
+        event.setTimestamp(saved.getTransactionDate());
+
+        kafkaProducerService.sendTransactionEvent(event);
+
+        return saved;
     }
 
     @Override
     public TransferResponseDTO transferMoney(TransferRequestDTO request) {
-        return accountClient.transferMoney(request);
+
+        System.out.println("========== TRANSFER STARTED ==========");
+
+        TransferResponseDTO response = accountClient.transferMoney(request);
+
+        System.out.println("Account servicex transfer completed");
+        System.out.println("Transaction Reference: " + response.getTransactionReference());
+
+        TransactionEvent event = new TransactionEvent();
+
+        event.setTransactionReference(response.getTransactionReference());
+        event.setFromAccountNumber(request.getFromAccountNumber());
+        event.setToAccountNumber(request.getToAccountNumber());
+        event.setAmount(
+                java.math.BigDecimal.valueOf(request.getAmount())
+        );
+        event.setTransactionType("TRANSFER");
+        event.setStatus("SUCCESS");
+        event.setTimestamp(LocalDateTime.now());
+
+        System.out.println("Sending TransactionEvent to Kafka...");
+
+        kafkaProducerService.sendTransactionEvent(event);
+
+        System.out.println("========== TRANSFER COMPLETED ==========");
+
+        return response;
     }
 
     @Override

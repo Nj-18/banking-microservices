@@ -15,7 +15,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
     properties:
       hibernate:
         format_sql: true
@@ -35,14 +34,24 @@ spring:
             connectTimeout: 2000
             readTimeout: 3000
 
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
 jwt:
   secret: ThisIsMySuperSecretKeyForBankingApplication12345678901234567890
   expiration: 86400000
+
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
 
 management:
   health:
@@ -52,6 +61,7 @@ management:
     web:
       exposure:
         include: health,info,circuitbreakers
+
 
 resilience4j:
   circuitbreaker:
@@ -64,16 +74,20 @@ resilience4j:
         waitDurationInOpenState: 10s
         permittedNumberOfCallsInHalfOpenState: 3
         automaticTransitionFromOpenToHalfOpenEnabled: true
+
     instances:
       ACCOUNT-SERVICE:
         baseConfig: default
+
   timelimiter:
     configs:
       default:
         timeoutDuration: 3s
+
     instances:
       ACCOUNT-SERVICE:
         baseConfig: default
+
   retry:
     configs:
       default:
@@ -84,6 +98,7 @@ resilience4j:
         retryExceptions:
           - java.io.IOException
           - feign.RetryableException
+
     instances:
       ACCOUNT-SERVICE:
         baseConfig: default
