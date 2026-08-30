@@ -14,10 +14,13 @@ spring:
       enabled: false
     openfeign:
       enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
   autoconfigure:
     exclude:
       - org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration
       - org.springframework.cloud.netflix.eureka.EurekaDiscoveryClientConfiguration
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
 
 eureka:
   client:

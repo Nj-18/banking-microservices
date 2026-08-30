@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka</artifactId>
-		</dependency> v
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

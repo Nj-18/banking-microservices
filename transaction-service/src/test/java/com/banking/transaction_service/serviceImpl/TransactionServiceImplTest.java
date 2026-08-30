@@ -8,7 +8,9 @@ import com.banking.transaction_service.dto.TransactionResponseDTO;
 import com.banking.transaction_service.dto.TransferRequestDTO;
 import com.banking.transaction_service.dto.TransferResponseDTO;
 import com.banking.transaction_service.entity.Transaction;
+import com.banking.transaction_service.event.TransactionEvent;
 import com.banking.transaction_service.exception.AccountNotFoundException;
+import com.banking.transaction_service.kafka.KafkaProducerService;
 import com.banking.transaction_service.repository.TransactionRepository;
 import feign.FeignException;
 import feign.Request;
@@ -43,6 +45,9 @@ class TransactionServiceImplTest {
 
     @Mock
     private AccountClient accountClient;
+
+    @Mock
+    private KafkaProducerService kafkaProducerService;
 
     @InjectMocks
     private TransactionServiceImpl transactionService;
@@ -127,6 +132,7 @@ class TransactionServiceImplTest {
         assertEquals("ACC1001", captured.getAccountNumber());
         assertNotNull(captured.getTransactionDate());
         assertSame(captured, saved);
+        verify(kafkaProducerService).sendTransactionEvent(any(TransactionEvent.class));
     }
 
     @Test
@@ -149,6 +155,7 @@ class TransactionServiceImplTest {
         assertEquals("ACC1001", result.getFromAccount());
         assertEquals("ACC1002", result.getToAccount());
         verify(accountClient).transferMoney(request);
+        verify(kafkaProducerService).sendTransactionEvent(any(TransactionEvent.class));
         verifyNoInteractions(transactionRepository);
     }
 
